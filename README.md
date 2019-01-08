@@ -1,3 +1,3 @@
-To make a request go to https://localhost:(port number)//api/college
+To make a request go to https://localhost:(port number)/api/college
 
 

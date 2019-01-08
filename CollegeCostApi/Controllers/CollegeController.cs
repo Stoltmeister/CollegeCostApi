@@ -16,14 +16,30 @@ namespace CollegeCostApi.Controllers
         public CollegeController()
         {
             colleges = CollegeData.GetCollegesFromCSV("college_costs.csv");
-        }         
+        }
+        
+        private bool IsMissingName(string entry)
+        {
+            switch(entry.ToLower())
+            {
+                case "true":
+                    return true;
+                case "false":
+                    return true;
+                case "instate":
+                    return true;
+                case "outstate":
+                    return true;
+            }
+            return false;
+        }
 
         // GET api/values/(name)
         [HttpGet("{name}")]
         public ActionResult<double> GetTotalCostByName(string name)
         {
             College selectedCollege = new College();
-            if (string.IsNullOrEmpty(name) || name == "true" || name == "false")
+            if (IsMissingName(name))
             {
                 return NotFound("College Name Required");
             }
@@ -46,11 +62,7 @@ namespace CollegeCostApi.Controllers
         public ActionResult<double> GetCostWithRoomAndBoard(string name, string includeRoomAndBoard)
         {
             bool addRoomAndBoard = includeRoomAndBoard == "false" ? false : true;
-            College selectedCollege = new College();
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new HttpListenerException(400, "College Name Required");
-            }
+            College selectedCollege = new College();            
             foreach (College c in colleges)
             {
                 if (c.Name == name)

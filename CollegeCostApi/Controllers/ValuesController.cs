@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CollegeCostApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace CollegeCostApi.Controllers
 {
@@ -10,11 +12,19 @@ namespace CollegeCostApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        public List<College> colleges;
+
+
+        public ValuesController()
+        {
+            colleges = CollegeData.GetCollegesFromCSV("college_costs.csv");
+        }         
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new string[] { "value1", "value2" };
+        public ActionResult<IEnumerable<College>> Get()
+        {            
+            return colleges;
         }
 
         // GET api/values/5
@@ -23,23 +33,6 @@ namespace CollegeCostApi.Controllers
         {
             return "value";
         }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        
     }
 }
